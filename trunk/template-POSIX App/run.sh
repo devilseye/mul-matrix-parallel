@@ -1,3 +1,1 @@
-target/sample-`uname -m` 
-
-
+target/omp-`uname -m`
