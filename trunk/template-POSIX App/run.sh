@@ -1,1 +1,0 @@
-target/omp-`uname -m`
