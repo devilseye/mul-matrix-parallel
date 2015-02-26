@@ -25,13 +25,11 @@ void *task_code(void *argument)
    
    pthread_mutex_lock(&mtx);
 
-   for(int i=0;i<N;i++){
-		for(int j=0;j<N;j++){
-			printf("%d ",a[tid][i]);
-		}
-		printf("\n");
-	}
-   
+   for(int i=0;i<N;i++)
+   {
+	   printf("%lf ",a[tid][i]);
+   }
+   printf("\n");   
 
    pthread_mutex_unlock(&mtx);
  
