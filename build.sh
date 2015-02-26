@@ -1,3 +1,3 @@
-g++ -lpthread -Wall -otarget/sample-`uname -m` sample.cpp -pthread
+g++ -lpthread -Wall -otarget/posixmul-`uname -m` posixmul.cpp -pthread
 
 
