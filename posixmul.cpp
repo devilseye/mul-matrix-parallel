@@ -90,7 +90,7 @@ int main(void)
    printf("\nC=\n");
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
-			printf("%5.2lf  ",c[i][j]);
+			printf("%10.2lf  ",c[i][j]);
 		}
 		printf("\n");
 	}
