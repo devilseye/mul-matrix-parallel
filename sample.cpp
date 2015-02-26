@@ -25,9 +25,11 @@ void *task_code(void *argument)
    
    pthread_mutex_lock(&mtx);
 
-   for(int i=0;i<N;i++)
+   for(int j=0;j<N;j++)
    {
-	   printf("%lf ",a[tid][i]);
+	   c[tid][j]=0.0;
+	   for(int k=0;k<N;k++)
+		   c[tid][j]+=a[tid][k]*b[k][j];
    }
    printf("\n");   
 
@@ -83,7 +85,13 @@ int main(void)
    }
  
    printf("\nAll threads completed successfully\n");
-
+   cout<<"\nC=\n";
+	for(int i=0;i<N;i++){
+		for(int j=0;j<N;j++){
+			cout<<c[i][j]<<" ";
+		}
+		cout<<'\n';
+	}
    pthread_mutex_destroy(&mtx);
    pthread_cond_destroy(&cv);
 
