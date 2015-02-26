@@ -8,11 +8,13 @@
 #include <unistd.h>
 #endif // _WIN32
 
-#define NUM_THREADS     5
+#define NUM_THREADS     10
+
+const int N=10;
+double a[N][N],b[N][N],c[N][N];
 
 pthread_cond_t cv;
 pthread_mutex_t mtx;
-bool thread4done = false;
 
 
 void *task_code(void *argument)
@@ -22,44 +24,54 @@ void *task_code(void *argument)
    tid = *((int *) argument);
    
    pthread_mutex_lock(&mtx);
+
+   for(int i=0;i<N;i++){
+		for(int j=0;j<N;j++){
+			printf("%d ",a[tid][i]);
+		}
+		printf("\n");
+	}
    
-   // let thread 4 executes first
-   while (tid != 4 && !thread4done) pthread_cond_wait(&cv, &mtx);
 
-   printf("Hello World! It's me, thread %d!\n", tid);
-
-   if (tid == 4) { thread4done = true; pthread_cond_broadcast(&cv); /*pthread_cond_signal(&cv)*/}
- 
    pthread_mutex_unlock(&mtx);
-
-   /* optionally: insert more useful stuff here */
  
    return NULL;
 }
  
+
+
 int main(void)
 {
    pthread_t threads[NUM_THREADS];
    int thread_args[NUM_THREADS];
    int rc, i;
- 
+
+   //matrix initialization
+	for(int i=0;i<N;i++)
+		for(int j=0;j<N;j++)a[i][j]=N*i+j;
+
+	for(int i=0;i<N;i++)
+		for(int j=0;j<N;j++)b[i][j]=N*i+j;
+
    pthread_mutex_init(&mtx, NULL);
    pthread_cond_init(&cv, NULL);
 
-   printf("Hello from POSIX threads app!\n");
+   printf("Hello from POSIX Matrix Multiplication Application!\n");
 
    // getting processors configuration
+/*
 #ifndef _WIN32
    printf(" sysconf_configured=%ld\n", sysconf(_SC_NPROCESSORS_CONF));
    printf(" sysconf_online=%ld\n", sysconf(_SC_NPROCESSORS_ONLN));
    printf(" get_nprocs_conf=%d\n", get_nprocs_conf());
    printf(" get_nprocs=%d\n", get_nprocs());
 #endif // _WIN32
+*/
 
    // create all threads one by one
    for (i=0; i<NUM_THREADS; ++i) {
       thread_args[i] = i;
-      printf("In main: creating thread %d\n", i);
+      printf("Creating thread %d\n", i);
       rc = pthread_create(&threads[i], NULL, task_code, (void *) &thread_args[i]);
       assert(0 == rc);
    }
@@ -68,11 +80,11 @@ int main(void)
    for (i=0; i<NUM_THREADS; ++i) {
       // block until thread i completes
       rc = pthread_join(threads[i], NULL);
-      printf("In main: thread %d is complete\n", i);
+      printf("Thread %d is complete\n", i);
       assert(0 == rc);
    }
  
-   printf("In main: All threads completed successfully\n");
+   printf("All threads completed successfully\n");
 
    pthread_mutex_destroy(&mtx);
    pthread_cond_destroy(&cv);
