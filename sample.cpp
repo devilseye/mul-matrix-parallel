@@ -42,16 +42,16 @@ void *task_code(void *argument)
 
 int main(void)
 {
-   pthread_t threads[NUM_THREADS];
-   int thread_args[NUM_THREADS];
-   int rc, i;
-
    //matrix initialization
 	for(int i=0;i<N;i++)
 		for(int j=0;j<N;j++)a[i][j]=N*i+j;
 
 	for(int i=0;i<N;i++)
 		for(int j=0;j<N;j++)b[i][j]=N*i+j;
+
+	pthread_t threads[NUM_THREADS];
+	int thread_args[NUM_THREADS];
+	int rc, i;
 
    pthread_mutex_init(&mtx, NULL);
    pthread_cond_init(&cv, NULL);
