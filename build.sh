@@ -1,3 +1,3 @@
-g++ -lpthread -Wall -otarget/sample-`uname -m` sample.cpp
+g++ -lpthread -Wall -otarget/sample-`uname -m` sample.cpp -pthread
 
 
