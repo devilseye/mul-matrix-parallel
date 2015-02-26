@@ -71,7 +71,7 @@ int main(void)
    // create all threads one by one
    for (i=0; i<NUM_THREADS; ++i) {
       thread_args[i] = i;
-      printf("\nCreating thread %d\n", i);
+      printf("Creating thread %d\n", i);
       rc = pthread_create(&threads[i], NULL, task_code, (void *) &thread_args[i]);
       assert(0 == rc);
    }
@@ -80,15 +80,15 @@ int main(void)
    for (i=0; i<NUM_THREADS; ++i) {
       // block until thread i completes
       rc = pthread_join(threads[i], NULL);
-      printf("\nThread %d is complete\n", i);
+      printf("Thread %d is complete\n", i);
       assert(0 == rc);
    }
  
-   printf("\nAll threads completed successfully\n");
+   printf("All threads completed successfully\n");
    printf("\nC=\n");
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
-			printf("%lf  ",c[i][j]);
+			printf("%5.2lf  ",c[i][j]);
 		}
 		printf("\n");
 	}
