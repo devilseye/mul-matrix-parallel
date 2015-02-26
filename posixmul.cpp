@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/*
 #ifndef _WIN32
 #include <sys/sysinfo.h>
 #include <unistd.h>
 #endif // _WIN32
+*/
 
 #define NUM_THREADS     10
 
