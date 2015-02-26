@@ -85,12 +85,12 @@ int main(void)
    }
  
    printf("\nAll threads completed successfully\n");
-   cout<<"\nC=\n";
+   printf("\nC=\n");
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
-			cout<<c[i][j]<<" ";
+			printf("%lf  ",c[i][j]);
 		}
-		cout<<'\n';
+		printf("\n");
 	}
    pthread_mutex_destroy(&mtx);
    pthread_cond_destroy(&cv);
