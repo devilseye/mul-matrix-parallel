@@ -1,3 +1,3 @@
-target/sample-`uname -m` 
+target/posixmul-`uname -m` 
 
 
