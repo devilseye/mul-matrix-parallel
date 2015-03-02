@@ -15,7 +15,7 @@
 
 int numProcessors;
 
-const int N=5;
+const int N=30;
 double a[N][N],b[N][N],c[N][N];
 double duration;
 
