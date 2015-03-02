@@ -43,7 +43,7 @@ void *task_code(void *argument)
 
    for (int i=tid*(N/numProcessors);i<endFor;i++)
    {
-	   printf("Processed string: %d\n",i);
+	   //printf("Processed string: %d\n",i);
 	   for(int j=0;j<N;j++)
 	   {
 		   c[i][j]=0.0;
@@ -99,7 +99,7 @@ int main(void)
    // create all threads one by one
    for (i=0; i<numProcessors; ++i) {
       thread_args[i] = i;
-      printf("Creating thread %d\n", i);
+      //printf("Creating thread %d\n", i);
       rc = pthread_create(&threads[i], NULL, task_code, (void *) &thread_args[i]);
       assert(0 == rc);
    }
@@ -108,7 +108,7 @@ int main(void)
    for (i=0; i<numProcessors; ++i) {
       // block until thread i completes
       rc = pthread_join(threads[i], NULL);
-      printf("Thread %d is complete\n", i);
+      //printf("Thread %d is complete\n", i);
       assert(0 == rc);
    }
 #ifndef WIN32	
