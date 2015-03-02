@@ -28,11 +28,11 @@ void *task_code(void *argument)
    tid = *((int *) argument);
    
    pthread_mutex_lock(&mtx);
-   for (int i=tid*N/numProcessors;i<N/numProcessors;i++)
+   for (int i=tid*(N/numProcessors);i<(tid+1)*N/(numProcessors);i++)
    {
+	   printf("%d\n",i);
 	   for(int j=0;j<N;j++)
 	   {
-		   printf("%d",i);
 		   c[i][j]=0.0;
 		   for(int k=0;k<N;k++)
 			   c[i][j]+=a[i][k]*b[k][j];
@@ -69,6 +69,7 @@ int main(void)
 
 #ifndef _WIN32
    numProcessors=sysconf(_SC_NPROCESSORS_ONLN);
+   printf("numProcessors: %d\n",numProcessors);
 /*
    printf(" sysconf_configured=%ld\n", sysconf(_SC_NPROCESSORS_CONF));
    printf(" sysconf_online=%ld\n", sysconf(_SC_NPROCESSORS_ONLN));
