@@ -28,7 +28,6 @@ void *task_code(void *argument)
    int tid;
  
    tid = *((int *) argument);
-   printf("\nThread %d:\n",tid);
    pthread_mutex_lock(&mtx);
    
    int endFor;
