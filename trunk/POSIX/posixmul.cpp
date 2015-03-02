@@ -117,6 +117,7 @@ int main(void)
 	duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
 #endif
    printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
+   /*
    printf("\nC=\n");
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
@@ -124,6 +125,7 @@ int main(void)
 		}
 		printf("\n");
 	}
+	*/
    pthread_mutex_destroy(&mtx);
    pthread_cond_destroy(&cv);
 
