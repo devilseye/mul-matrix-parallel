@@ -12,7 +12,7 @@
 
 #define NUM_THREADS     10
 
-int numProcessors
+int numProcessors;
 
 const int N=10;
 double a[N][N],b[N][N],c[N][N];
@@ -32,7 +32,7 @@ void *task_code(void *argument)
    {
 	   for(int j=0;j<N;j++)
 	   {
-		   printf(i);
+		   printf("%d",i);
 		   c[i][j]=0.0;
 		   for(int k=0;k<N;k++)
 			   c[i][j]+=a[i][k]*b[k][j];
