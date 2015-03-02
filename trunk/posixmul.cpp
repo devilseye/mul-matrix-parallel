@@ -14,7 +14,7 @@
 
 int numProcessors;
 
-const int N=3;
+const int N=5;
 double a[N][N],b[N][N],c[N][N];
 
 pthread_cond_t cv;
@@ -26,7 +26,7 @@ void *task_code(void *argument)
    int tid;
  
    tid = *((int *) argument);
-   
+   printf("Thread %d:",tid);
    pthread_mutex_lock(&mtx);
    
    int endFor;
@@ -42,7 +42,7 @@ void *task_code(void *argument)
 
    for (int i=tid*(N/numProcessors);i<endFor;i++)
    {
-	   printf("%d\n",i);
+	   printf("Обработана %d строка\n",i);
 	   for(int j=0;j<N;j++)
 	   {
 		   c[i][j]=0.0;
