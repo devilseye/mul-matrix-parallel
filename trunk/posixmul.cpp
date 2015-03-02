@@ -12,9 +12,7 @@
 
 #define NUM_THREADS     10
 
-#ifndef _WIN32
-int numProcessors=sysconf(_SC_NPROCESSORS_ONLN);
-#endif // _WIN32
+int numProcessors
 
 const int N=10;
 double a[N][N],b[N][N],c[N][N];
@@ -68,14 +66,16 @@ int main(void)
    printf("Hello from POSIX Matrix Multiplication Application!\n");
 
    // getting processors configuration
-/*
+
 #ifndef _WIN32
+   numProcessors=sysconf(_SC_NPROCESSORS_ONLN);
+/*
    printf(" sysconf_configured=%ld\n", sysconf(_SC_NPROCESSORS_CONF));
    printf(" sysconf_online=%ld\n", sysconf(_SC_NPROCESSORS_ONLN));
    printf(" get_nprocs_conf=%d\n", get_nprocs_conf());
    printf(" get_nprocs=%d\n", get_nprocs());
-#endif // _WIN32
 */
+#endif // _WIN32
 
    // create all threads one by one
    for (i=0; i<numProcessors; ++i) {
