@@ -5,6 +5,7 @@
 
 
 #ifndef _WIN32
+#include <sys/time.h>
 #include <sys/sysinfo.h>
 #include <unistd.h>
 #endif // _WIN32
@@ -16,6 +17,7 @@ int numProcessors;
 
 const int N=5;
 double a[N][N],b[N][N],c[N][N];
+double duration;
 
 pthread_cond_t cv;
 pthread_mutex_t mtx;
@@ -71,10 +73,10 @@ int main(void)
 	int thread_args[NUM_THREADS];
 	int rc, i;
 
+	printf("Hello from POSIX Matrix Multiplication Application!\n");
+
    pthread_mutex_init(&mtx, NULL);
    pthread_cond_init(&cv, NULL);
-
-   printf("Hello from POSIX Matrix Multiplication Application!\n");
 
    // getting processors configuration
 
@@ -87,8 +89,14 @@ int main(void)
    printf(" get_nprocs_conf=%d\n", get_nprocs_conf());
    printf(" get_nprocs=%d\n", get_nprocs());
 */
+#else
+   numProcessors=NUM_THREADS;
 #endif // _WIN32
 
+#ifndef WIN32
+	struct timeval tim1,tim2;   
+    gettimeofday(&tim1, NULL);
+#endif
    // create all threads one by one
    for (i=0; i<numProcessors; ++i) {
       thread_args[i] = i;
@@ -104,8 +112,11 @@ int main(void)
       printf("Thread %d is complete\n", i);
       assert(0 == rc);
    }
- 
-   printf("All threads completed successfully\n");
+#ifndef WIN32	
+	gettimeofday(&tim2, NULL);
+	duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
+#endif
+   printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration;
    printf("\nC=\n");
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
