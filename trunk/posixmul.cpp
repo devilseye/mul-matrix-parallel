@@ -31,7 +31,16 @@ void *task_code(void *argument)
    
    int endFor;
    
-   for (int i=tid*(N/numProcessors);i<(tid+1)*N/(numProcessors);i++)
+   if (tid+1==numProcessors)
+   {
+	   endFor=N;
+   }
+   else
+   {
+	   endFor=(tid+1)*N/(numProcessors);
+   }
+
+   for (int i=tid*(N/numProcessors);i<endFor;i++)
    {
 	   printf("%d\n",i);
 	   for(int j=0;j<N;j++)
