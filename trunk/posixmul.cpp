@@ -14,7 +14,7 @@
 
 int numProcessors;
 
-const int N=10;
+const int N=3;
 double a[N][N],b[N][N],c[N][N];
 
 pthread_cond_t cv;
@@ -28,6 +28,9 @@ void *task_code(void *argument)
    tid = *((int *) argument);
    
    pthread_mutex_lock(&mtx);
+   
+   int endFor;
+   
    for (int i=tid*(N/numProcessors);i<(tid+1)*N/(numProcessors);i++)
    {
 	   printf("%d\n",i);
