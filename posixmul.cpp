@@ -26,7 +26,7 @@ void *task_code(void *argument)
    int tid;
  
    tid = *((int *) argument);
-   printf("Thread %d:",tid);
+   printf("\nThread %d:\n",tid);
    pthread_mutex_lock(&mtx);
    
    int endFor;
@@ -49,8 +49,7 @@ void *task_code(void *argument)
 		   for(int k=0;k<N;k++)
 			   c[i][j]+=a[i][k]*b[k][j];
 	   }
-   }
-   printf("\n");   
+   } 
 
    pthread_mutex_unlock(&mtx);
  
