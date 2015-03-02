@@ -12,6 +12,10 @@
 
 #define NUM_THREADS     10
 
+#ifndef _WIN32
+int numProcessors=sysconf(_SC_NPROCESSORS_ONLN);
+#endif // _WIN32
+
 const int N=10;
 double a[N][N],b[N][N],c[N][N];
 
@@ -26,12 +30,15 @@ void *task_code(void *argument)
    tid = *((int *) argument);
    
    pthread_mutex_lock(&mtx);
-
-   for(int j=0;j<N;j++)
+   for (int i=tid*N/numProcessors;i<N/numProcessors;i++)
    {
-	   c[tid][j]=0.0;
-	   for(int k=0;k<N;k++)
-		   c[tid][j]+=a[tid][k]*b[k][j];
+	   for(int j=0;j<N;j++)
+	   {
+		   printf(i);
+		   c[i][j]=0.0;
+		   for(int k=0;k<N;k++)
+			   c[i][j]+=a[i][k]*b[k][j];
+	   }
    }
    printf("\n");   
 
@@ -71,7 +78,7 @@ int main(void)
 */
 
    // create all threads one by one
-   for (i=0; i<NUM_THREADS; ++i) {
+   for (i=0; i<numProcessors; ++i) {
       thread_args[i] = i;
       printf("Creating thread %d\n", i);
       rc = pthread_create(&threads[i], NULL, task_code, (void *) &thread_args[i]);
@@ -79,7 +86,7 @@ int main(void)
    }
  
    // wait for each thread to complete
-   for (i=0; i<NUM_THREADS; ++i) {
+   for (i=0; i<numProcessors; ++i) {
       // block until thread i completes
       rc = pthread_join(threads[i], NULL);
       printf("Thread %d is complete\n", i);
