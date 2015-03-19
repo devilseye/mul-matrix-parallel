@@ -8,7 +8,7 @@
 int main (int argc, char *argv[])
 {
 	int th_id, nthreads;
-	const int N=30;
+	const int N=10;
 
 	double a[N][N],b[N][N],c[N][N];
 	double duration;
