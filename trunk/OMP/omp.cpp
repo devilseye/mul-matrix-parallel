@@ -28,7 +28,11 @@ int main (int argc, char *argv[])
 		printf("Hello World from thread %d\n", th_id);
 		
 		#pragma omp barrier
-
+	#ifndef WIN32	
+		gettimeofday(&tim2, NULL);
+		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
+	#endif
+		printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
 		if(th_id == 0){
 			nthreads = omp_get_num_threads();
 			printf("There are %d threads\n",nthreads);
