@@ -7,13 +7,28 @@
    
 int main (int argc, char *argv[])
 {
+	double **a, **b,**c;
 	int sizes[]={30,60,100,1000,3000};
 	for (int index=0;index<(sizeof(sizes)/sizeof(int));index++)
 	{
 		int th_id, nthreads;
 		int N=sizes[index];
 		printf("Matrix size: %d x %d\n",N,N);
-		double a[N][N],b[N][N],c[N][N];
+		a= new double *[N];
+		for (int i = 0; i < N; i++) 
+		{
+		  a[i] = new double[N];
+		}
+		b= new double *[N];
+		for (int i = 0; i < N; i++) 
+		{
+		  b[i] = new double[N];
+		}
+		c= new double *[N];
+		for (int i = 0; i < N; i++) 
+		{
+		  c[i] = new double[N];
+		}
 		double duration;
 
 		for(int i=0;i<N;i++)
@@ -79,6 +94,12 @@ int main (int argc, char *argv[])
 		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
 		#endif
 		printf("Serial Multiplication duration: %10.5lf sec.\n",duration);
+		for (int count = 0; count < N; count++)
+			delete []a[count];
+		for (int count = 0; count < N; count++)
+			delete []b[count];
+		for (int count = 0; count < N; count++)
+			delete []c[count];
 	}
 	return EXIT_SUCCESS;
 }
