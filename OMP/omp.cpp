@@ -23,24 +23,25 @@ int main (int argc, char *argv[])
 	struct timeval tim1,tim2;   
     gettimeofday(&tim1, NULL);
 	#endif
-	nthreads = omp_get_num_threads();
-	printf("There are %d threads\n",nthreads);
+
 	#pragma omp parallel private(th_id)
 	{
 		th_id = omp_get_thread_num();
 		printf("Hello World from thread %d\n", th_id);
 		
-		#pragma omp barrier
-	#ifndef WIN32	
-		gettimeofday(&tim2, NULL);
-		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
-	#endif
-		printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
-		if(th_id == 0){
+		nthreads = omp_get_num_threads();
+		printf("There are %d threads\n",nthreads);
+	#pragma omp barrier
+		/*if(th_id == 0){
 			nthreads = omp_get_num_threads();
 			printf("There are %d threads\n",nthreads);
-		}
+		}*/
 	}
+#ifndef WIN32	
+	gettimeofday(&tim2, NULL);
+	duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
+#endif
+	printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
 	return EXIT_SUCCESS;
 }
 
