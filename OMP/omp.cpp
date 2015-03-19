@@ -58,18 +58,29 @@ int main (int argc, char *argv[])
 		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
 		#endif
 
-		printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
-		/*
-		printf("\nC=\n");
+		printf("All threads completed successfully!\nDuration: %10.5lf sec.\n",duration);
+
+		// cleaning matrix Ñ
+		for(int i=0;i<N;i++)
+		for(int j=0;j<N;j++) c[i][j]=0.0;
+	
+		#ifndef WIN32 
+		gettimeofday(&tim1, NULL);
+		#endif
+		// serial matrix multiplication
 		for(int i=0;i<N;i++){
 			for(int j=0;j<N;j++){
-				printf("%10.2lf  ",c[i][j]);
+				c[i][j]=0.0;
+				for(int k=0;k<N;k++)c[i][j]+=a[i][k]*b[k][j];
 			}
-			printf("\n");
 		}
-		*/
+		#ifndef WIN32	
+		gettimeofday(&tim2, NULL);
+		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
+		#endif
+		printf("Serial Multiplication duration: %10.5lf sec.\n",duration);
 	}
-		return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
 
 
