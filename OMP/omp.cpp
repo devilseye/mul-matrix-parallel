@@ -19,28 +19,45 @@ int main (int argc, char *argv[])
 	for(int i=0;i<N;i++)
 		for(int j=0;j<N;j++)b[i][j]=N*i+j;
 
-	#ifndef WIN32
+#ifndef WIN32
 	struct timeval tim1,tim2;   
     gettimeofday(&tim1, NULL);
-	#endif
+#endif
 
 	#pragma omp parallel private(th_id)
 	{
-		th_id = omp_get_thread_num();
-		printf("Hello World from thread %d\n", th_id);
-		
-		nthreads = omp_get_num_threads();
-		printf("There are %d threads\n",nthreads);
-	#pragma omp barrier
-		/*if(th_id == 0){
+		if(th_id == 0){
 			nthreads = omp_get_num_threads();
 			printf("There are %d threads\n",nthreads);
-		}*/
+		}
+		#pragma omp barrier
+		th_id = omp_get_thread_num();
+		if (th_id+1==nthreads)
+		{
+			endFor=N;
+		}
+		else
+		{
+			endFor=(th_id+1)*N/(nthreads);
+		}
+
+		for (int i=th_id*(N/nthreads);i<endFor;i++)
+		{
+			printf("Processed string: %d\n",i);
+			for(int j=0;j<N;j++)
+			{
+				c[i][j]=0.0;
+				for(int k=0;k<N;k++)
+					c[i][j]+=a[i][k]*b[k][j];
+			}
+		}
 	}
+
 #ifndef WIN32	
 	gettimeofday(&tim2, NULL);
 	duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
 #endif
+
 	printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
 	return EXIT_SUCCESS;
 }
