@@ -69,12 +69,12 @@ int main(void)
 		b= new double *[N];
 		for (int i = 0; i < N; i++) 
 		{
-		  a[i] = new double[N];
+		  b[i] = new double[N];
 		}
 		c= new double *[N];
 		for (int i = 0; i < N; i++) 
 		{
-		  a[i] = new double[N];
+		  c[i] = new double[N];
 		}
 		double duration;
 		//matrix initialization
