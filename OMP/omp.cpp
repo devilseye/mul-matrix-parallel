@@ -26,10 +26,7 @@ int main (int argc, char *argv[])
 
 	#pragma omp parallel private(th_id)
 	{
-		if(th_id == 0){
-			nthreads = omp_get_num_threads();
-			printf("There are %d threads\n",nthreads);
-		}
+		nthreads = omp_get_num_threads();
 		#pragma omp barrier
 		th_id = omp_get_thread_num();
 		int endFor;
@@ -39,7 +36,7 @@ int main (int argc, char *argv[])
 		}
 		else
 		{
-			endFor=(th_id+1)*N/(nthreads);
+			endFor=(th_id+1)*(N/nthreads);
 		}
 
 		for (int i=th_id*(N/nthreads);i<endFor;i++)
