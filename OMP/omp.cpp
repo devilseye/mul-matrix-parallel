@@ -27,7 +27,6 @@ int main (int argc, char *argv[])
 	#pragma omp parallel private(th_id)
 	{
 		nthreads = omp_get_num_threads();
-		#pragma omp barrier
 		th_id = omp_get_thread_num();
 		int endFor;
 		if (th_id+1==nthreads)
@@ -57,6 +56,13 @@ int main (int argc, char *argv[])
 #endif
 
 	printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
+    printf("\nC=\n");
+	for(int i=0;i<N;i++){
+		for(int j=0;j<N;j++){
+			printf("%10.2lf  ",c[i][j]);
+		}
+		printf("\n");
+	}
 	return EXIT_SUCCESS;
 }
 
