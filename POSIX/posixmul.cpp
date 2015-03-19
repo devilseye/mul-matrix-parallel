@@ -23,7 +23,7 @@ void *task_code(void *argument)
    int tid;
  
    tid = *((int *) argument);
-   pthread_mutex_lock(&mtx);
+   //pthread_mutex_lock(&mtx);
    
    int endFor;
    
@@ -47,7 +47,7 @@ void *task_code(void *argument)
 	   }
    } 
 
-   pthread_mutex_unlock(&mtx);
+   //pthread_mutex_unlock(&mtx);
  
    return NULL;
 }
