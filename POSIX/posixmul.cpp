@@ -12,7 +12,9 @@
 
 
 #define NUM_THREADS     30
-
+int numProcessors;
+int N;
+double **a, **b,**c;
 pthread_cond_t cv;
 pthread_mutex_t mtx;
 
@@ -54,13 +56,26 @@ void *task_code(void *argument)
 
 int main(void)
 {
-	int sizes={30,60,100,1000,3000};
+	int sizes[]={30,60,100,1000,3000};
 	for (int index=0;index<(sizeof(sizes)/sizeof(int));index++)
 	{
-		int numProcessors;
-		int N=sizes[index];
+		N=sizes[index];
 		printf("Matrix size: %d x %d\n",N,N);
-		double a[N][N],b[N][N],c[N][N];
+		**a= new double *[N];
+		for (int i = 0; i < M; i++) 
+		{
+		  a[i] = new double[N];
+		}
+		**b= new double *[N];
+		for (int i = 0; i < M; i++) 
+		{
+		  a[i] = new double[N];
+		}
+		**c= new double *[N];
+		for (int i = 0; i < M; i++) 
+		{
+		  a[i] = new double[N];
+		}
 		double duration;
 		//matrix initialization
 		for(int i=0;i<N;i++)

@@ -7,7 +7,7 @@
    
 int main (int argc, char *argv[])
 {
-	int sizes={30,60,100,1000,3000};
+	int sizes[]={30,60,100,1000,3000};
 	for (int index=0;index<(sizeof(sizes)/sizeof(int));index++)
 	{
 		int th_id, nthreads;
