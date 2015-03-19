@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
 
 			for (int i=th_id*(N/nthreads);i<endFor;i++)
 			{
-				printf("Processed string: %d\n",i);
+				//printf("Processed string: %d\n",i);
 				for(int j=0;j<N;j++)
 				{
 					c[i][j]=0.0;

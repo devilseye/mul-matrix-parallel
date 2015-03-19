@@ -61,18 +61,18 @@ int main(void)
 	{
 		N=sizes[index];
 		printf("Matrix size: %d x %d\n",N,N);
-		**a= new double *[N];
-		for (int i = 0; i < M; i++) 
+		a= new double *[N];
+		for (int i = 0; i < N; i++) 
 		{
 		  a[i] = new double[N];
 		}
-		**b= new double *[N];
-		for (int i = 0; i < M; i++) 
+		b= new double *[N];
+		for (int i = 0; i < N; i++) 
 		{
 		  a[i] = new double[N];
 		}
-		**c= new double *[N];
-		for (int i = 0; i < M; i++) 
+		c= new double *[N];
+		for (int i = 0; i < N; i++) 
 		{
 		  a[i] = new double[N];
 		}
