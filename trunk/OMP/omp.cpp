@@ -32,6 +32,7 @@ int main (int argc, char *argv[])
 		}
 		#pragma omp barrier
 		th_id = omp_get_thread_num();
+		int endFor;
 		if (th_id+1==nthreads)
 		{
 			endFor=N;
