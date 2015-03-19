@@ -11,11 +11,12 @@
 #endif // _WIN32
 
 
-#define NUM_THREADS     10
+#define NUM_THREADS     30
 
 int numProcessors;
 
 const int N=30;
+
 double a[N][N],b[N][N],c[N][N];
 double duration;
 
