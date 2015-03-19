@@ -79,6 +79,12 @@ int main (int argc, char *argv[])
 		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
 		#endif
 		printf("Serial Multiplication duration: %10.5lf sec.\n",duration);
+		for (int count = 0; count < N; count++)
+			delete []a[count];
+		for (int count = 0; count < N; count++)
+			delete []b[count];
+		for (int count = 0; count < N; count++)
+			delete []c[count];
 	}
 	return EXIT_SUCCESS;
 }
