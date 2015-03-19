@@ -13,16 +13,8 @@
 
 #define NUM_THREADS     30
 
-int numProcessors;
-
-int NMAX=100;
-
-double a[N][N],b[N][N],c[N][N];
-double duration;
-
 pthread_cond_t cv;
 pthread_mutex_t mtx;
-
 
 void *task_code(void *argument)
 {
@@ -62,72 +54,70 @@ void *task_code(void *argument)
 
 int main(void)
 {
-   //matrix initialization
-	for(int i=0;i<N;i++)
-		for(int j=0;j<N;j++)a[i][j]=N*i+j;
+	int sizes={30,60,100,1000,3000};
+	for (int index=0;index<(sizeof(sizes)/sizeof(int));index++)
+	{
+		int numProcessors;
+		int N=sizes[index];
+		printf("Matrix size: %d x %d\n",N,N);
+		double a[N][N],b[N][N],c[N][N];
+		double duration;
+		//matrix initialization
+		for(int i=0;i<N;i++)
+			for(int j=0;j<N;j++) a[i][j]=N*i+j;
 
-	for(int i=0;i<N;i++)
-		for(int j=0;j<N;j++)b[i][j]=N*i+j;
+		for(int i=0;i<N;i++)
+			for(int j=0;j<N;j++) b[i][j]=N*i+j;
 
-	pthread_t threads[NUM_THREADS];
-	int thread_args[NUM_THREADS];
-	int rc, i;
+		pthread_t threads[NUM_THREADS];
+		int thread_args[NUM_THREADS];
+		int rc, i;
 
-	printf("Hello from POSIX Matrix Multiplication Application!\n");
+		pthread_mutex_init(&mtx, NULL);
+		pthread_cond_init(&cv, NULL);
 
-   pthread_mutex_init(&mtx, NULL);
-   pthread_cond_init(&cv, NULL);
+		#ifndef _WIN32
+		numProcessors=sysconf(_SC_NPROCESSORS_ONLN);
+		printf("numProcessors: %d\n",numProcessors);
+		#else
+		numProcessors=NUM_THREADS;
+		#endif // _WIN32
 
-   // getting processors configuration
-
-#ifndef _WIN32
-   numProcessors=sysconf(_SC_NPROCESSORS_ONLN);
-   printf("numProcessors: %d\n",numProcessors);
-/*
-   printf(" sysconf_configured=%ld\n", sysconf(_SC_NPROCESSORS_CONF));
-   printf(" sysconf_online=%ld\n", sysconf(_SC_NPROCESSORS_ONLN));
-   printf(" get_nprocs_conf=%d\n", get_nprocs_conf());
-   printf(" get_nprocs=%d\n", get_nprocs());
-*/
-#else
-   numProcessors=NUM_THREADS;
-#endif // _WIN32
-
-#ifndef WIN32
-	struct timeval tim1,tim2;   
-    gettimeofday(&tim1, NULL);
-#endif
-   // create all threads one by one
-   for (i=0; i<numProcessors; ++i) {
-      thread_args[i] = i;
-      //printf("Creating thread %d\n", i);
-      rc = pthread_create(&threads[i], NULL, task_code, (void *) &thread_args[i]);
-      assert(0 == rc);
-   }
- 
-   // wait for each thread to complete
-   for (i=0; i<numProcessors; ++i) {
-      // block until thread i completes
-      rc = pthread_join(threads[i], NULL);
-      //printf("Thread %d is complete\n", i);
-      assert(0 == rc);
-   }
-#ifndef WIN32	
-	gettimeofday(&tim2, NULL);
-	duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
-#endif
-   printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
-   /*
-   printf("\nC=\n");
-	for(int i=0;i<N;i++){
-		for(int j=0;j<N;j++){
-			printf("%10.2lf  ",c[i][j]);
+		#ifndef WIN32
+		struct timeval tim1,tim2;   
+		gettimeofday(&tim1, NULL);
+		#endif
+		// create all threads one by one
+		for (i=0; i<numProcessors; ++i) {
+			thread_args[i] = i;
+			//printf("Creating thread %d\n", i);
+			rc = pthread_create(&threads[i], NULL, task_code, (void *) &thread_args[i]);
+			assert(0 == rc);
 		}
-		printf("\n");
+ 
+		// wait for each thread to complete
+		for (i=0; i<numProcessors; ++i) {
+			// block until thread i completes
+			rc = pthread_join(threads[i], NULL);
+			//printf("Thread %d is complete\n", i);
+			assert(0 == rc);
+		}
+		#ifndef WIN32	
+		gettimeofday(&tim2, NULL);
+		duration=tim2.tv_sec+(tim2.tv_usec/1000000.0)-tim1.tv_sec+(tim1.tv_usec/1000000.0); 
+		#endif
+		printf("All threads completed successfully!\nDuration: %10.5lf sec.",duration);
+		/*
+		printf("\nC=\n");
+		for(int i=0;i<N;i++){
+			for(int j=0;j<N;j++){
+				printf("%10.2lf  ",c[i][j]);
+			}
+			printf("\n");
+		}
+		*/
+		pthread_mutex_destroy(&mtx);
+		pthread_cond_destroy(&cv);
 	}
-	*/
-   pthread_mutex_destroy(&mtx);
-   pthread_cond_destroy(&cv);
-
-   return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
